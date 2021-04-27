@@ -1,3 +1,4 @@
+using ChangeAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,8 @@ namespace ChangeAPI
 
             services.AddDbContext<ApplicationContext>(options => 
             options.UseSqlServer(connectionString));
+
+            services.AddTransient<ICheckoutCashier, CheckoutCashier>();
 
             services.AddControllers();
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ChangeAPI.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,16 @@ namespace ChangeAPI.Controllers
     [ApiController]
     public class ChangeController : ControllerBase
     {
-        [HttpGet("{total}/{amountPaid}")]
-        public IActionResult Change(double total, double amountPaid)
+        private readonly ICheckoutCashier checkoutCashier;
+        public ChangeController(ICheckoutCashier checkoutCashier)
         {
-            return Ok();
+            this.checkoutCashier = checkoutCashier;
+        }
+
+        [HttpGet("{total}/{amountPaid}")]
+        public ActionResult<IEnumerable<string>> Change(double total, double amountPaid)
+        {
+            return checkoutCashier.Checkout(total,amountPaid);
         }
     }
 }
