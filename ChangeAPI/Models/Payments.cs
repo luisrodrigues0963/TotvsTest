@@ -12,11 +12,16 @@ namespace ChangeAPI.Models
     {
         private readonly IBillRepository IBillRepository;
         private readonly ICoinRepository ICoinRepository;
+        private readonly ITransactionXBillRepository ITransactionXBillRepository;
+        private readonly ITransactionXCoinRepository ITransactionXCoinRepository;
 
-        public Payments(IBillRepository IBillRepository, ICoinRepository ICoinRepository)
+        public Payments(IBillRepository IBillRepository, ICoinRepository ICoinRepository, 
+            ITransactionXBillRepository ITransactionXBillRepository, ITransactionXCoinRepository ITransactionXCoinRepository)
         {
             this.IBillRepository = IBillRepository;
             this.ICoinRepository = ICoinRepository;
+            this.ITransactionXBillRepository = ITransactionXBillRepository;
+            this.ITransactionXCoinRepository = ITransactionXCoinRepository;
         }
 
         public (StringBuilder, double) ChangeBill(double change, Transaction transaction)
@@ -45,6 +50,8 @@ namespace ChangeAPI.Models
                     transactionXBill.Bill = bills;
                     transactionXBill.Transaction = transaction;
                     transactionXBill.Quantity = Convert.ToInt32(calculation);
+
+                    ITransactionXBillRepository.InsertTransactionBill(transactionXBill);
                 }
             }
 
@@ -77,6 +84,8 @@ namespace ChangeAPI.Models
                     transactionXCoin.Coin = coin;
                     transactionXCoin.Transaction = transaction;
                     transactionXCoin.Quantity = Convert.ToInt32(calculation);
+
+                    ITransactionXCoinRepository.InsertTransactionXCoin(transactionXCoin);
                 }
             }
 
