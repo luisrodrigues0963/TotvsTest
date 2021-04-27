@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ChangeAPI.Models.DataBase
 {
-    public class Coin : ModelDb
+    public class Transaction: ModelDb
     {
         [Required]
 
-        public string Description { get; set; }
+        public double TotalAmount { get; set; }
 
-        public double Value { get; set; }
+        public double TotalPaid { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }
