@@ -37,7 +37,10 @@ namespace ChangeAPI
 
             services.AddTransient<ICheckoutCashier, CheckoutCashier>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
-
+            services.AddTransient<IBillRepository, BillRepository>();
+            services.AddTransient<ICoinRepository, CoinRepository>();
+            services.AddTransient<ITransactionXBillRepository, TransactionXBillRepository>();
+            services.AddTransient<ITransactionXCoinRepository, TransactionXCoinRepository>();
 
             services.AddControllers();
         }
