@@ -1,3 +1,5 @@
+using ChangeAPI.Repositories;
+using ChangeAPI.Repositories.Interfaces;
 using ChangeAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,8 @@ namespace ChangeAPI
             options.UseSqlServer(connectionString));
 
             services.AddTransient<ICheckoutCashier, CheckoutCashier>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+
 
             services.AddControllers();
         }
