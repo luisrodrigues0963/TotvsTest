@@ -19,9 +19,23 @@ namespace ChangeAPI.Controllers
         }
 
         [HttpGet("{total}/{amountPaid}")]
-        public ActionResult<IEnumerable<string>> Change(double total, double amountPaid)
+        public IActionResult Change(double total, double amountPaid)
         {
-            return checkoutCashier.Checkout(total,amountPaid);
+
+            if (total > amountPaid)
+            {
+                return BadRequest("O total não pode ser maior que o valor pago");
+            }
+            else if (total <= 0 || amountPaid <= 0)
+            {
+                return BadRequest("Não podem existir valores 0 ou negativos");
+            }
+            else
+            {
+                return Ok(checkoutCashier.Checkout(total, amountPaid));
+            }
+
+           
         }
     }
 }

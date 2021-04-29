@@ -32,34 +32,24 @@ namespace ChangeAPI.Services
 
         public ActionResult<IEnumerable<string>> Checkout(double total, double amountPaid)
         {
-            if (total > amountPaid)
-            {
-                return new string[] { "O total não pode ser maior que o valor pago" };
-            }
-            else if (total <= 0 || amountPaid <= 0)
-            {
-                return new string[] { "Não podem existir valores 0 ou negativos" };
-            }
-            else
-            {
-                double change = amountPaid - total;
+            double change = amountPaid - total;
 
-                Payments payments = new Payments(IBillRepository, ICoinRepository, ITransactionXBillRepository, ITransactionXCoinRepository);
+            Payments payments = new Payments(IBillRepository, ICoinRepository, ITransactionXBillRepository, ITransactionXCoinRepository);
 
-                Transaction transaction = new Transaction();
-                transaction.TotalAmount = total;
-                transaction.TotalPaid = amountPaid;
-                transaction.Date = DateTime.Now;
+            Transaction transaction = new Transaction();
+            transaction.TotalAmount = total;
+            transaction.TotalPaid = amountPaid;
+            transaction.Date = DateTime.Now;
 
-                ITransactionRepository.InsertTransaction(transaction);
+            ITransactionRepository.InsertTransaction(transaction);
 
-                var billResult = payments.ChangeBill(change, transaction);
-                var coinResult = payments.ChangeCoin(billResult.Item2, transaction);
+            var billResult = payments.ChangeBill(change, transaction);
+            var coinResult = payments.ChangeCoin(billResult.Item2, transaction);
 
-                string result = billResult.Item1.ToString() + " " + coinResult;
+            string result = billResult.Item1.ToString() + " " + coinResult;
 
-                return new string[] { "Valor do troco: " + change, "Resultado Esperado: " + result };
-            }
+            return new string[] { "Valor do troco: " + change, "Resultado Esperado: " + result };
+
         }
     }
 }
